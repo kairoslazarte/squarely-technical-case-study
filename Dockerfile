@@ -1,31 +1,42 @@
 FROM php:8.3-cli
 
-# Install system dependencies and PHP extensions Laravel needs
 RUN apt-get update && apt-get install -y \
     curl \
     unzip \
+    git \
+    libcurl4-openssl-dev \
     libsqlite3-dev \
     libzip-dev \
     libonig-dev \
     libxml2-dev \
+    libssl-dev \
     && docker-php-ext-install \
         pdo \
         pdo_sqlite \
         mbstring \
         zip \
         xml \
+        curl \
         fileinfo \
         tokenizer \
+        opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
 COPY . .
 
-RUN cd backend && composer install --no-dev --optimize-autoloader
+# Set up .env, install dependencies, create sqlite file, generate key
+RUN cd backend \
+    && cp .env.example .env \
+    && sed -i 's/APP_ENV=local/APP_ENV=production/' .env \
+    && sed -i 's/APP_DEBUG=true/APP_DEBUG=false/' .env \
+    && composer install --no-dev --optimize-autoloader --no-interaction \
+    && touch database/database.sqlite \
+    && php artisan key:generate --force \
+    && chmod -R 775 storage bootstrap/cache
 
 EXPOSE 8000
 
