@@ -30,6 +30,7 @@ RUN cd backend \
 EXPOSE 8000
 
 CMD cd backend \
+    && sed -i "s|FRONTEND_URL=.*|FRONTEND_URL=https://squarely-technical-case-study.vercel.app|" .env \
     && php artisan config:clear \
     && php artisan migrate --force \
     && php artisan db:seed --force \
