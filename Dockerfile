@@ -1,25 +1,20 @@
 FROM php:8.3-cli
 
 RUN apt-get update && apt-get install -y \
-    curl \
     unzip \
     git \
-    libcurl4-openssl-dev \
+    libcurl4-dev \
     libsqlite3-dev \
     libzip-dev \
     libonig-dev \
     libxml2-dev \
-    libssl-dev \
     && docker-php-ext-install \
         pdo \
         pdo_sqlite \
         mbstring \
         zip \
-        xml \
         curl \
-        fileinfo \
-        tokenizer \
-        opcache \
+        xml \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -28,7 +23,6 @@ WORKDIR /app
 
 COPY . .
 
-# Set up .env, install dependencies, create sqlite file, generate key
 RUN cd backend \
     && cp .env.example .env \
     && sed -i 's/APP_ENV=local/APP_ENV=production/' .env \
