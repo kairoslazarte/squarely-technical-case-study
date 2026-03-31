@@ -1,8 +1,9 @@
 <template>
   <div class="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-    <div class="w-full max-w-sm">
+    <div class="w-full max-w-lg">
       <div class="text-center mb-8">
-        <h1 class="text-2xl font-semibold text-white">Squarely Tasks</h1>
+        <h1 class="text-2xl font-semibold text-white">Squarely - Task & Request Management Module</h1>
+        <span class="text-xs text-gray-300 italic">by Fillip Kairos Lazarte</span>
         <p class="text-slate-400 text-sm mt-1">Sign in to continue</p>
       </div>
 
