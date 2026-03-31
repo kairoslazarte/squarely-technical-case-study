@@ -31,3 +31,5 @@ bootstrap/cache/*.php
 !storage/framework/sessions/.gitkeep
 !storage/framework/testing/.gitkeep
 !storage/framework/views/.gitkeep
+
+storage/logs/laravel.log
